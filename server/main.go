@@ -8,6 +8,16 @@ import (
 func main() {
 	http.HandleFunc("/", handler)
 
-	fmt.Println("Listening on :8080")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Listening on https://localhost:8443")
+
+	err := http.ListenAndServeTLS(
+		":8443",
+		"certs/server.crt",
+		"certs/server.key",
+		nil,
+	)
+
+	if err != nil {
+		panic(err)
+	}
 }
