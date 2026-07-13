@@ -11,11 +11,15 @@ func main() {
 
 	fmt.Println("Listening on https://localhost:8443")
 
+	// Check if Certificate Exists. if not new one is generated.
+
 	if _, err := os.Stat("certs/server.crt"); os.IsNotExist(err) {
 		if err := generateCert(); err != nil {
 			panic(err)
 		}
 	}
+
+	// Open The Http and Server TLS for encryption.
 
 	err := http.ListenAndServeTLS(
 		":8443",
