@@ -3,12 +3,19 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/", handler)
 
 	fmt.Println("Listening on https://localhost:8443")
+
+	if _, err := os.Stat("certs/server.crt"); os.IsNotExist(err) {
+		if err := generateCert(); err != nil {
+			panic(err)
+		}
+	}
 
 	err := http.ListenAndServeTLS(
 		":8443",
